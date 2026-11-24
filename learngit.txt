@@ -1,11 +1,18 @@
 cd 文件名：进入该文件夹
 mkdir 文件名：在工作文件夹下创建文件夹
 pwd：显示当前工作文件夹
+
+git -v：显示本机的git版本号
 git init：把当前工作文件夹变成git管理厂库
 git add readme.txt：把工作目录下的readme.txt文件放到暂存区，暂存区可以保存多个文件，后续运行git commit -m会把暂存区里所有文件的修改保存为一个版本
 注释：暂存区保存的是最后一次执行 git add 时的文件内容，不会随文件的修改和保存自动更新。如果之后又修改了文件，需要再次执行 git add，才能将新的修改加入暂存区。git commit 提交的是暂存区中的内容。
 git commit -m “”：给暂存区的修改保存为一个版本，记录这个版本的修改，“”是这个版本修改的说明
+
 git status：告诉我们仓库的状态，比如哪些文件在暂存区，哪些文件修改了但是没放入暂存区，哪些文件新增但是没有追踪
 git diff 文件名：查看文件修改的具体内容，当前文件与暂存区的差距
 git diff --cached 文件名：暂存区与最近一次提交的差异
 git diff HEAD	文件名：当前文件与最近一次提交的差异
+
+git log：查看每一次git commit提交的快照  --pretty=oneline简短输出信息；输出的"commit f10d48bfd5d5e88ffabdc5a944f14dcc7b3193da"是每个版本的编号commit id
+git reset：版本回退。HEAD表示当前版本，HEAD^上一个版本，HEAD^^上上一个版本，HEAD~100前100个版本。--hard：工作区、暂存区和分支都回退到指定版本，--soft：工作区和暂存区不变，分支回退到指定版本；--mixed：工作区不变，分支和暂存区回退到指定版本。eg：git reset --hard HEAD^回退到上个版本的提交状态。git reset --hard （commit id）可以回退到当前id号的版本，也可以在回退后恢复到原来的版本。
+git reflog：查看HEAD指向历史，通过看commit id来后悔回退操作（具体操作git reset --hard （commit id））。结果：23d9421 (HEAD -> master) HEAD@{0}: reset: moving to 23d9421；23d9421：该操作完成后HEAD指向的版本号，(HEAD -> master) ：commit存在分支时，HEAD➡分支名➡commit id，HEAD@{n}：HEAD最近第n+1次操作，reset: moving to 23d9421：该操作具体命令。
