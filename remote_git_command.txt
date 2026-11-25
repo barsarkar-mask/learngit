@@ -1,0 +1,36 @@
+ssh-keygen -t rsa -C "<email>"
+说明：在本机生成一对 RSA 类型的 SSH 密钥。
+注释1：-t rsa 指定密钥类型，-C "<email>" 添加备注，邮箱仅用于辨认。
+注释2：默认生成 ~/.ssh/id_rsa（私钥）和 ~/.ssh/id_rsa.pub（公钥）。私钥留在本机，公钥添加到 GitHub 账号。
+注释3：SSH 密钥用于验证账号身份。能否推送取决于该账号对目标仓库的权限。
+
+ssh -T git@github.com
+说明：测试本机能否通过 SSH 认证，并查看 GitHub 识别到的账号。
+注释1：首次连接时，若提示确认服务器指纹，先与 GitHub 官方公布的指纹核对，一致后再输入 yes。
+注释2：看到 You've successfully authenticated 就表示认证成功。后面的 does not provide shell access 是正常提示。
+
+git remote -v
+说明：查看当前本地仓库保存的远程别名，以及对应的获取（fetch）和推送（push）地址。
+
+git remote add origin git@github.com:<owner>/<repository>.git
+说明：把远程仓库的 SSH 地址保存到当前本地仓库，并将该地址命名为 origin。
+注释1：origin 是本地别名，<repository> 才是 GitHub 上的仓库名。
+注释2：例如 git remote add origin git@github.com:barsarkar-mask/learngit.git。这一步只保存地址。
+
+git remote set-url origin git@github.com:<owner>/<repository>.git
+说明：修改已有别名 origin 对应的远程地址。
+注释：例如把地址中的 barsarkar_mask 改成正确的 barsarkar-mask。修改后可用 git remote -v 确认。
+
+git remote rm origin
+说明：从当前本地仓库移除远程别名 origin 及其对应的配置。
+注释1：同时移除 origin/master 等远程跟踪记录，保留 GitHub 上的仓库和本地提交。
+注释2：执行后可以用 git remote -v 确认 origin 已移除。
+
+git push -u origin <branch>
+说明：把指定本地分支上的提交推送到 origin 的同名分支，并建立分支跟踪关系。
+注释1：例如 git push -u origin master，推送的是本地 master 当前指向的提交及远程所缺少的历史提交。工作区和暂存区里尚未提交的修改不会被上传。
+注释2：-u 让本地分支记住对应的远程分支，以后在该分支上通常可以直接执行 git push。
+注释3：推送成功后，远程分支会指向本次推送的提交。如果本地分支回退到了远程已有提交之前，普通推送通常会被拒绝。
+
+git push
+说明：在已设置上游分支的情况下，通常可以直接用这条命令推送当前分支的提交。
